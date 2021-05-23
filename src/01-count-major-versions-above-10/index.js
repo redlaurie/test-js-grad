@@ -37,6 +37,9 @@ The results should have this structure:
  *  greater than 10.x.x
  */
 var a = 0
+
+var pack = []
+var packageCount = 0
 var responseObject = {}
 const axios = require('axios')
 function CreatePostRequest() {
@@ -59,29 +62,21 @@ function CreatePostRequest() {
                 const Value = response.data.content});
 
     responseObject = axios(POST).then(function (response) {
-                return response.data.content});
-    return responseObject
-    };
-    
-function filterResults(array){
+                     for(var i in response){ a = a + 1; 
+                            if (parseInt(response.data.content[a].package.version) > 10) 
+                            {packageCount = packageCount + 1 }} 
+                            return packageCount});
 
-    for(var i in responseObject){
-        var key = i;
-        console.log(key)
-        var val = responseObject[i];
-        for(var j in val){
-            var sub_key = j;
-            var sub_val = val[j];
-            console.log(sub_key);
-        }
-    }
-    return responseObject
-};
+
+        return responseObject
+    };
+
 
 module.exports = async function countMajorVersionsAbove10() {
   // TODO
   
   const count = await CreatePostRequest()
-  filterResults(responseObject)
+
+
   return count
 };
