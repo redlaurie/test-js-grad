@@ -38,9 +38,50 @@ The results should have this structure:
  * NOTE: the parent array and each "packageNames" array should 
  * be in alphabetical order.
  */
+var a = -1
+var packageID = 0
+var packageNames = []
+var username = []
+var Array = []
+var oldestPackage = new Date();
 
+var responseObject = {}
+const axios = require('axios')
+function CreatePostRequest() {
+    a = 0
+    const POST = {
+         method: 'post',
+         url: 'http://ambush-api.inyourarea.co.uk/ambush/intercept',
+         headers: {
+            // Overwrite Axios's automatically set Content-Type
+            'Content-Type': 'application/json'
+         },
+         data: {
+            "url": "https://api.npms.io/v2/search/suggestions?q=react",
+            "method": "GET",
+            "return_payload": true
+         }
+
+    };
+    const Count = axios(POST).then(function (response) {
+                const Value = response.data.content});
+
+    responseObject = axios(POST).then(function (response) {
+                    for(let step = 0; step < response.data.content.length - 1; step++){ a = a + 1;}
+                        console.log(response.data.content[a])
+                        packageNames.push(response.data.content[a].package.name)
+                        packageNames.sort()
+                        username.push(response.data.content[a].package.maintainers)
+                        username.sort()
+                        return Array = [username, [packageNames]];})
+
+
+        return responseObject
+    };
 module.exports = async function organiseMaintainers() {
   // TODO
-
+  const maintainers = await CreatePostRequest()
+  maintainers.sort()
+ 
   return maintainers
 };

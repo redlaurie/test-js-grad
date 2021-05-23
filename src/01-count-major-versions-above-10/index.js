@@ -36,14 +36,14 @@ The results should have this structure:
  *  the number of packages that have a MAJOR semver version 
  *  greater than 10.x.x
  */
-var a = 0
-
+var a = -1
+var b = 1
 var pack = []
 var packageCount = 0
 var responseObject = {}
 const axios = require('axios')
 function CreatePostRequest() {
-    a = 8
+
     const POST = {
          method: 'post',
          url: 'http://ambush-api.inyourarea.co.uk/ambush/intercept',
@@ -62,7 +62,8 @@ function CreatePostRequest() {
                 const Value = response.data.content});
 
     responseObject = axios(POST).then(function (response) {
-                     for(var i in response){ a = a + 1; 
+                     for(let step = 0; step < response.data.content.length - 1; step++){a = a + 1
+
                             if (parseInt(response.data.content[a].package.version) > 10) 
                             {packageCount = packageCount + 1 }} 
                             return packageCount});

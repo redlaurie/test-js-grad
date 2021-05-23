@@ -27,14 +27,15 @@ The results should have this structure:
  *  With the results from this request, inside "content", return
  *  the "name" of the package that has the oldest "date" value
  */
-var a = 0
+var a = -1
 var packageID = 0
 var pack = []
-var oldestPackage = 100
+var oldestPackage = new Date();
+
 var responseObject = {}
 const axios = require('axios')
 function CreatePostRequest() {
-    a = 8
+    a = 0
     const POST = {
          method: 'post',
          url: 'http://ambush-api.inyourarea.co.uk/ambush/intercept',
@@ -53,10 +54,11 @@ function CreatePostRequest() {
                 const Value = response.data.content});
 
     responseObject = axios(POST).then(function (response) {
-                     for(var i in response){ a = a + 1; 
-                    if (parseInt(response.data.content[a].package.version) < oldestPackage) 
-                        {oldestPackage =  parseInt(response.data.content[a].package.version), packageID = a}} 
-                        return response.data.content[packageID].package.name})
+                    for(let step = 0; step < response.data.content.length - 1; step++){ a = a + 1; 
+                        if (new Date(response.data.content[a].package.date) < oldestPackage)
+                            {oldestPackage = new Date(response.data.content[a].package.date), packageID = a}} 
+                            console.log(oldestPackage)
+                            return response.data.content[packageID].package.name});
 
 
         return responseObject
